@@ -10,9 +10,21 @@ import SwiftUI
 @main
 struct SwiftUI_TutorialsApp: App {
     
+    @StateObject var store = TutorialAppStore(landmarks: testLandmarks!)
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView(store: store)
         }
     }
 }
+
+class TutorialAppStore: ObservableObject {
+    @Published var landmarks: [Landmark] = []
+    
+    init(landmarks: [Landmark] = []) {
+        self.landmarks = landmarks
+    }
+}
+
+let testStore = TutorialAppStore(landmarks: testLandmarks!)
