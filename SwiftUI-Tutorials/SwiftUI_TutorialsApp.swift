@@ -14,7 +14,8 @@ struct SwiftUI_TutorialsApp: App {
     
     var body: some Scene {
         WindowGroup {
-            HomeView(store: store)
+            HomeView()
+                .environmentObject(store)
         }
     }
 }

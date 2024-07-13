@@ -11,7 +11,7 @@ struct HomeView: View {
     
     @State var isShowFavoriteOnly = false
     
-    @ObservedObject var store: TutorialAppStore
+    @EnvironmentObject var store: TutorialAppStore
     
     var filterLandmarks: [Landmark] {
         store.landmarks.filter { landmark in
@@ -26,17 +26,30 @@ struct HomeView: View {
                     Text("Favoriate Only")
                 })
                 ForEach(filterLandmarks) { landmark in
-                    NavigationLink(destination: DetailView(landmark: landmark)) { HomeRow(landmark: landmark) }
-                        .listRowSeparator(.hidden)
+                    NavigationLink(destination: DetailView(landmark: landmark)) {
+                        HomeRow(landmark: landmark)
+                    }
+                    .listRowSeparator(.hidden)
                 }
+                Text("Totoal: \(filterLandmarks.count)")
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .font(.callout)
             }
             .animation(.default, value: filterLandmarks)
             .navigationTitle("Landmarks")
             .navigationBarTitleDisplayMode(.automatic)
+            .toolbar() {
+                ToolbarItem(placement: .automatic) {
+                    NavigationLink(destination: FontExamplesView()) {
+                        Text("Fonts")
+                    }
+                }
+            }
         }
     }
 }
 
 #Preview {
-    HomeView(store: testStore)
+    HomeView()
+        .environmentObject(TutorialAppStore(landmarks: testLandmarks!))
 }
