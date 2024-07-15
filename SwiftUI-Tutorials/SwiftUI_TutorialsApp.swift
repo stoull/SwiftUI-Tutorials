@@ -14,7 +14,7 @@ struct SwiftUI_TutorialsApp: App {
     
     var body: some Scene {
         WindowGroup {
-            LandmarkListView()
+            APPTabView()
                 .environmentObject(store)
         }
     }
