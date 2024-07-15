@@ -14,7 +14,7 @@ struct SwiftUI_TutorialsApp: App {
     
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            LandmarkListView()
                 .environmentObject(store)
         }
     }
@@ -22,6 +22,16 @@ struct SwiftUI_TutorialsApp: App {
 
 class TutorialAppStore: ObservableObject {
     @Published var landmarks: [Landmark] = []
+    
+    var categories: [String: [Landmark]] {
+        Dictionary(
+            grouping: landmarks, by: { $0.category.rawValue }
+        )
+    }
+    
+    var features: [Landmark] {
+        landmarks.filter { $0.isFeatured }
+    }
     
     init(landmarks: [Landmark] = []) {
         self.landmarks = landmarks

@@ -8,6 +8,13 @@
 import Foundation
 
 var testLandmarks: [Landmark]? = load("landmarkData.json")
+
+var categories: [String: [Landmark]] {
+    Dictionary(
+        grouping: testLandmarks!, by: { $0.category.rawValue }
+    )
+}
+
 var hikes: [Hike]? = load("hikeData.json")
 
 func load<T: Decodable>(_ filename: String) -> T? {

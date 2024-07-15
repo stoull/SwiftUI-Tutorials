@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct LandmarkListView: View {
     
     @State var isShowFavoriteOnly = false
     
@@ -27,7 +27,7 @@ struct HomeView: View {
                 })
                 ForEach(filterLandmarks) { landmark in
                     NavigationLink(destination: DetailView(landmark: landmark)) {
-                        HomeRow(landmark: landmark)
+                        LandmarkRow(landmark: landmark)
                     }
                     .listRowSeparator(.hidden)
                 }
@@ -50,6 +50,6 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    LandmarkListView()
         .environmentObject(TutorialAppStore(landmarks: testLandmarks!))
 }

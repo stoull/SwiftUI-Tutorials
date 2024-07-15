@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeRow: View {
+struct LandmarkRow: View {
     var landmark: Landmark
     var body: some View {
         HStack(spacing: 12.0) {
@@ -38,5 +38,5 @@ struct HomeRow: View {
 }
 
 #Preview {
-    HomeRow(landmark: testLandmarks!.last!)
+    LandmarkRow(landmark: testLandmarks!.last!)
 }
