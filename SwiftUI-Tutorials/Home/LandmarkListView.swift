@@ -13,6 +13,10 @@ struct LandmarkListView: View {
     
     @EnvironmentObject var store: TutorialAppStore
     
+    @State private var landmarkOP: Landmark?
+    @State private var isDeleting: Bool = false
+    @State private var isSharing: Bool = false
+    
     var filterLandmarks: [Landmark] {
         store.landmarks.filter { landmark in
             (!isShowFavoriteOnly || landmark.isFavorite)
@@ -30,6 +34,17 @@ struct LandmarkListView: View {
                         LandmarkRow(landmark: landmark)
                     }
                     .listRowSeparator(.hidden)
+                    .swipeActions {
+                        Button("Delete", systemImage: "trash") {
+                            isDeleting.toggle()
+                            landmarkOP = landmark
+                        }
+                        .tint(.red)
+                        Button("Share", systemImage: "square.and.arrow.up") {
+                            isSharing.toggle()
+                        }
+                        .tint(.blue)
+                    }
                 }
                 Text("Totoal: \(filterLandmarks.count)")
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -43,6 +58,21 @@ struct LandmarkListView: View {
                     NavigationLink(destination: FontExamplesView()) {
                         Text("Fonts")
                     }
+                }
+            }
+            .alert("Confirm delete?",
+                   isPresented: $isDeleting,
+                   presenting: landmarkOP) { landmark in
+                Button(role: .destructive) {
+                    // Action for delete
+                } label: {
+                    Text("Delete \(landmark.name)")
+                }
+            } message: { landmark in
+                if landmark.isFavorite {
+                    Text("\(landmark.name) is your favorite landmark")
+                } else {
+                    Text("\(landmark.name) is not your favorite landmark")
                 }
             }
         }
