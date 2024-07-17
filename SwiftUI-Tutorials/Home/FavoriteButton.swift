@@ -20,6 +20,13 @@ struct FavoriteButton: View {
     }
 }
 
+struct FavoriteButton_Preview: View {
+    @State var isFav: Bool = false
+    var body: some View {
+        FavoriteButton(isSet: $isFav)
+    }
+}
+
 #Preview {
-    FavoriteButton(isSet: .constant(true))
+    FavoriteButton_Preview()
 }

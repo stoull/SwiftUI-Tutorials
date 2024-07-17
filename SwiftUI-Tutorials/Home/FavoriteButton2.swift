@@ -13,12 +13,19 @@ struct FavoriteButton2: View {
         Button {
             isSet.toggle()
         } label: {
-            isSet ? Label("Favorite", systemImage: "heart.fill") : Label("Favorite", systemImage: "heart")
+            isSet ? Label("Unfavorite", systemImage: "heart.fill") : Label("Favorite", systemImage: "heart")
         }
         .tint(isSet ? .yellow : .blue)
     }
 }
 
+struct FavoriteButton2_Preview: View {
+    @State var isFav: Bool = false
+    var body: some View {
+        FavoriteButton2(isSet: $isFav)
+    }
+}
+
 #Preview {
-    FavoriteButton2(isSet: .constant(true))
+    FavoriteButton2_Preview()
 }
