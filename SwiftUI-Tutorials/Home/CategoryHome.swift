@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CategoryHome: View {
-    @EnvironmentObject var store: TutorialAppStore
+    @EnvironmentObject var store: AppStore
     
     var body: some View {
         if #available(iOS 16.0, *) {
@@ -57,5 +57,5 @@ struct CategoryHome: View {
 
 #Preview {
     CategoryHome()
-        .environmentObject(TutorialAppStore(landmarks: testLandmarks!))
+        .environmentObject(AppStore(landmarks: testLandmarks!))
 }

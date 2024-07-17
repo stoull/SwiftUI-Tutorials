@@ -29,5 +29,5 @@ struct APPTabView: View {
 
 #Preview {
     APPTabView()
-        .environmentObject(TutorialAppStore(landmarks: testLandmarks!))
+        .environmentObject(AppStore(landmarks: testLandmarks!))
 }

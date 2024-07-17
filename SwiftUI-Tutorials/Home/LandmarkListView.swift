@@ -11,14 +11,19 @@ struct LandmarkListView: View {
     
     @State var isShowFavoriteOnly = false
     
-    @EnvironmentObject var store: TutorialAppStore
+    @EnvironmentObject var store: AppStore
     
-    @State private var landmarkOP: Landmark?
+    @State private var landmarkInEditing: Landmark?
     @State private var isDeleting: Bool = false
-    @State private var isSharing: Bool = false
+    
+    var currentEditingIndex: Int? {
+        guard let landmark = landmarkInEditing else { return nil }
+        return store.landmarks.firstIndex(where: { $0.id == landmark.id })
+    }
     
     var filterLandmarks: [Landmark] {
-        store.landmarks.filter { landmark in
+        let landmarks = store.filteredLandmarks(searchText: store.searchText)
+        return landmarks.filter { landmark in
             (!isShowFavoriteOnly || landmark.isFavorite)
         }
     }
@@ -36,14 +41,13 @@ struct LandmarkListView: View {
                     .listRowSeparator(.hidden)
                     .swipeActions {
                         Button("Delete", systemImage: "trash") {
+                            landmarkInEditing = landmark
                             isDeleting.toggle()
-                            landmarkOP = landmark
                         }
                         .tint(.red)
-                        Button("Share", systemImage: "square.and.arrow.up") {
-                            isSharing.toggle()
-                        }
-                        .tint(.blue)
+                        FavoriteButton2(isSet:
+                                            $store.landmarks.first(where: { $0.id == landmark.id })!.isFavorite
+                        )
                     }
                 }
                 Text("Totoal: \(filterLandmarks.count)")
@@ -53,6 +57,7 @@ struct LandmarkListView: View {
             .animation(.default, value: filterLandmarks)
             .navigationTitle("Landmarks")
             .navigationBarTitleDisplayMode(.automatic)
+            .searchable(text: $store.searchText, prompt: "search landmarks")
             .toolbar() {
                 ToolbarItem(placement: .automatic) {
                     NavigationLink(destination: FontExamplesView()) {
@@ -62,7 +67,7 @@ struct LandmarkListView: View {
             }
             .alert("Confirm delete?",
                    isPresented: $isDeleting,
-                   presenting: landmarkOP) { landmark in
+                   presenting: landmarkInEditing) { landmark in
                 Button(role: .destructive) {
                     // Action for delete
                 } label: {
@@ -81,5 +86,5 @@ struct LandmarkListView: View {
 
 #Preview {
     LandmarkListView()
-        .environmentObject(TutorialAppStore(landmarks: testLandmarks!))
+        .environmentObject(AppStore(landmarks: testLandmarks!))
 }

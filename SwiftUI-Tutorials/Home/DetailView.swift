@@ -9,13 +9,9 @@ import SwiftUI
 
 struct DetailView: View {
     
-    @EnvironmentObject var store: TutorialAppStore
+    @EnvironmentObject var store: AppStore
     
     var landmark: Landmark
-    
-    var landmarkIndex: Int {
-        store.landmarks.firstIndex(where: { $0.id == landmark.id })!
-    }
     
     var body: some View {
         ScrollView {
@@ -28,7 +24,7 @@ struct DetailView: View {
                 HStack {
                     Text(landmark.name)
                         .font(.title)
-                    FavoriteButton(isSet: $store.landmarks[landmarkIndex].isFavorite)
+                    FavoriteButton(isSet:$store.landmarks.first(where: { $0.id == landmark.id })!.isFavorite)
                 }
                 HStack {
                     Text(landmark.park)
@@ -52,5 +48,5 @@ struct DetailView: View {
 
 #Preview {
     DetailView(landmark: testLandmarks!.last!)
-        .environmentObject(TutorialAppStore(landmarks: testLandmarks!))
+        .environmentObject(AppStore(landmarks: testLandmarks!))
 }

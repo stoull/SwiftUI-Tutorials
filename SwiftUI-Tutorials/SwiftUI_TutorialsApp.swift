@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct SwiftUI_TutorialsApp: App {
     
-    @StateObject var store = TutorialAppStore(landmarks: testLandmarks!)
+    @StateObject var store = AppStore(landmarks: testLandmarks!)
     
     var body: some Scene {
         WindowGroup {
@@ -19,23 +19,3 @@ struct SwiftUI_TutorialsApp: App {
         }
     }
 }
-
-class TutorialAppStore: ObservableObject {
-    @Published var landmarks: [Landmark] = []
-    
-    var categories: [String: [Landmark]] {
-        Dictionary(
-            grouping: landmarks, by: { $0.category.rawValue }
-        )
-    }
-    
-    var features: [Landmark] {
-        landmarks.filter { $0.isFeatured }
-    }
-    
-    init(landmarks: [Landmark] = []) {
-        self.landmarks = landmarks
-    }
-}
-
-let testStore = TutorialAppStore(landmarks: testLandmarks!)
